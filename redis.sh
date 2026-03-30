@@ -32,8 +32,13 @@ yum install redis -y
 VALIDATE $? "Installing Redis"
 
 # Enable remote access
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
-VALIDATE $? "Allowing remote connections"
+if [ -f /etc/redis.conf ]; then
+    sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis.conf
+    VALIDATE $? "Allowing remote connections"
+else
+    echo "Redis config file not found!"
+    exit 1
+fi
 
 # Start service
 systemctl enable redis
