@@ -28,7 +28,7 @@ else
 fi
 
 # Install Redis
-dnf install redis -y
+yum install redis -y
 VALIDATE $? "Installing Redis"
 
 # Enable remote access
