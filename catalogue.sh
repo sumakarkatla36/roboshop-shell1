@@ -29,65 +29,65 @@ fi
 
 dnf module disable nodejs -y &>> $LOGFILE
 
-VALIDATE $? "Diabling current node js" &>> $LOGFILE
+VALIDATE $? "Disabling current node js" 
 
 dnf module enable nodejs:18 -y &>> $LOGFILE
 
-VALIDATE $? "enabling nodejs 18"&>> $LOGFILE
+VALIDATE $? "enabling nodejs 18"
 
 dnf install nodejs -y &>> $LOGFILE
 
-VALIDATE $?  "installing nodejs"&>> $LOGFILE
+VALIDATE $?  "installing nodejs"
 
 useradd roboshop &>> $LOGFILE
 
-VALIDATE $?  "creating a roboshop user"&>> $LOGFILE
+VALIDATE $?  "creating a roboshop user"
 
 mkdir /app &>> $LOGFILE
 
-VALIDATE $?  "creating a app directory"&>> $LOGFILE
+VALIDATE $?  "creating a app directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip
 
-VALIDATE $? "downloading the catalogue application"&>> $LOGFILE
+VALIDATE $? "downloading the catalogue application"
 
-cd /app &>> $LOGFILE
+cd /app
 
-unzip /tmp/catalogue.zip &>> $LOGFILE
+unzip /tmp/catalogue.zip 
 
-VALIDATE $? "changing the location to app directory  and unziping"&>> $LOGFILE
+VALIDATE $? "changing the location to app directory  and unziping"
 
-npm install &>> $LOGFILE
+npm install 
 
-VALIDATE $? "installing the npm dependencies"&>> $LOGFILE
+VALIDATE $? "installing the npm dependencies"
 
-cp /home/centos/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /home/centos/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.service 
 
-VALIDATE $? "copying catalogue service file"&>> $LOGFILE
+VALIDATE $? "copying catalogue service file"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "daemon reloading"&>> $LOGFILE
+VALIDATE $? "daemon reloading"
 
 systemctl enable catalogue &>> $LOGFILE
 
-VALIDATE $? "enabling catalogue"&>> $LOGFILE
+VALIDATE $? "enabling catalogue"
 
 systemctl start catalogue &>> $LOGFILE
 
-VALIDATE $? "staring the catalogue"&>> $LOGFILE
+VALIDATE $? "starting the catalogue"
 
-cp /home/centos/roboshop-shell1/mogo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /home/centos/roboshop-shell1/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
-VALIDATE $? "copying the mongo repo"&>> $LOGFILE
+VALIDATE $? "copying the mongo repo"
 
 dnf install mongodb-org-shell -y &>> $LOGFILE
 
-VALIDATE $? "installing mongoDB client"&>> $LOGFILE
+VALIDATE $? "installing mongoDB client"
 
 mongo --host mongodb.katla.space </app/schema/catalogue.js &>> $LOGFILE
 
-VALIDATE $? "loading catalogue data into mongodb"&>> $LOGFILE
+VALIDATE $? "loading catalogue data into mongodb"
 
 
 
