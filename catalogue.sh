@@ -27,23 +27,23 @@ else
   echo -e "${G}you are root user${N}"
 fi
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOGFILE
 
 VALIDATE $? "Diabling current node js" &>> $LOGFILE
 
-dnf module enable nodejs:18 -y
+dnf module enable nodejs:18 -y &>> $LOGFILE
 
 VALIDATE $? "enabling nodejs 18"&>> $LOGFILE
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOGFILE
 
 VALIDATE $?  "installing nodejs"&>> $LOGFILE
 
-useradd roboshop
+useradd roboshop &>> $LOGFILE
 
 VALIDATE $?  "creating a roboshop user"&>> $LOGFILE
 
-mkdir /app
+mkdir /app &>> $LOGFILE
 
 VALIDATE $?  "creating a app directory"&>> $LOGFILE
 
@@ -51,41 +51,43 @@ curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zi
 
 VALIDATE $? "downloading the catalogue application"&>> $LOGFILE
 
-cd /app 
+cd /app &>> $LOGFILE
 
-unzip /tmp/catalogue.zip
+unzip /tmp/catalogue.zip &>> $LOGFILE
 
 VALIDATE $? "changing the location to app directory  and unziping"&>> $LOGFILE
 
-npm install 
+npm install &>> $LOGFILE
 
 VALIDATE $? "installing the npm dependencies"&>> $LOGFILE
 
-cp /home/centos/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.service
+cp /home/centos/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 
 VALIDATE $? "copying catalogue service file"&>> $LOGFILE
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOGFILE
 
 VALIDATE $? "daemon reloading"&>> $LOGFILE
 
-systemctl enable catalogue
+systemctl enable catalogue &>> $LOGFILE
 
 VALIDATE $? "enabling catalogue"&>> $LOGFILE
 
-systemctl start catalogue
+systemctl start catalogue &>> $LOGFILE
 
 VALIDATE $? "staring the catalogue"&>> $LOGFILE
 
-cp /home/centos/roboshop-shell1/mogo.repo /etc/yum.repos.d/mongo.repo
+cp /home/centos/roboshop-shell1/mogo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 
 VALIDATE $? "copying the mongo repo"&>> $LOGFILE
 
-dnf install mongodb-org-shell -y
+dnf install mongodb-org-shell -y &>> $LOGFILE
 
 VALIDATE $? "installing mongoDB client"&>> $LOGFILE
 
-mongo --host mongodb.katla.space </app/schema/catalogue.js
+mongo --host mongodb.katla.space </app/schema/catalogue.js &>> $LOGFILE
 
 VALIDATE $? "loading catalogue data into mongodb"&>> $LOGFILE
+
+
 
