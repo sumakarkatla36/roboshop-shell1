@@ -61,7 +61,7 @@ npm install
 
 VALIDATE $? "installing the npm dependencies"&>> $LOGFILE
 
-cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service
+cp /home/centos/roboshop-shell1/catalogue.service /etc/systemd/system/catalogue.service
 
 VALIDATE $? "copying catalogue service file"&>> $LOGFILE
 
@@ -77,9 +77,15 @@ systemctl start catalogue
 
 VALIDATE $? "staring the catalogue"&>> $LOGFILE
 
-cp 
+cp /home/centos/roboshop-shell1/mogo.repo /etc/yum.repos.d/mongo.repo
 
+VALIDATE $? "copying the mongo repo"&>> $LOGFILE
 
+dnf install mongodb-org-shell -y
 
+VALIDATE $? "installing mongoDB client"&>> $LOGFILE
 
+mongo --host mongodb.katla.space </app/schema/catalogue.js
+
+VALIDATE $? "loading catalogue data into mongodb"&>> $LOGFILE
 
