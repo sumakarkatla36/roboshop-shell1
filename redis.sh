@@ -46,3 +46,4 @@ VALIDATE $? "Enable Redis"
 
 systemctl start redis
 VALIDATE $? "Start Redis"
+
